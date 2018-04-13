@@ -21,11 +21,14 @@ class PostingController extends SecureRoute{
         $this->data = $list;
     }
 
-    function delete(){
-
+    function timeline(){
+        $posting = new Posting($this->db);
+        $posting->account = 'select fullname form taccount where tposting.taccount_id=taccount.id';
+        $list = array_map(array($posting,'cast'),$posting->load()); 
+        $this->data = $list;    
     }
 
-    function search(){
-        
+    function timelineMe(){
+       
     }
 }
