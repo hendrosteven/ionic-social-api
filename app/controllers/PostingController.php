@@ -23,12 +23,21 @@ class PostingController extends SecureRoute{
 
     function timeline(){
         $posting = new Posting($this->db);
-        $posting->account = 'select fullname form taccount where tposting.taccount_id=taccount.id';
-        $list = array_map(array($posting,'cast'),$posting->load()); 
+        $posting->account_name = 'select fullname from taccount where tposting.taccount_id=taccount.id';
+        $list = array_map(array($posting,'cast'),$posting->find()); 
         $this->data = $list;    
     }
 
     function timelineMe(){
-       
+        $posting = new Posting($this->db);
+        $posting->account = 'select fullname from taccount where tposting.taccount_id=taccount.id';
+
+        $filter = array(
+            'taccount_id=?',
+             $this->account->id
+        ); 
+         
+        $list = array_map(array($posting,'cast'),$posting->find($filter)); 
+        $this->data = $list;
     }
 }
